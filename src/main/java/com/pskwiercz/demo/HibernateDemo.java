@@ -1,4 +1,4 @@
-package com.pskwiercz;
+package com.pskwiercz.demo;
 
 import com.pskwiercz.entity.Student;
 import org.hibernate.Session;
@@ -28,7 +28,7 @@ public class HibernateDemo {
 
             session.getTransaction().commit();
 
-            System.out.println(studentDB.getLastName());
+            System.out.println(studentDB.toString());
 
         } finally {
             factory.close();
