@@ -18,13 +18,17 @@ public class HibernateDemo {
         Session session = factory.getCurrentSession();
 
         try {
-            Student student = new Student("Paul", "Fick", "pf@gmail.com");
+            Student student = new Student("Adam", "Badamski", "pf@gmail.com");
 
             session.beginTransaction();
 
             session.save(student);
 
+            Student studentDB =  session.get(Student.class, student.getId());
+
             session.getTransaction().commit();
+
+            System.out.println(studentDB.getLastName());
 
         } finally {
             factory.close();
