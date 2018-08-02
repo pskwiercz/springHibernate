@@ -6,6 +6,7 @@ import com.pskwiercz.entity.InstructorDetail;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,7 +50,7 @@ public class OnetToManyDemo {
             System.out.println("Courses: " + instructor.getCourses());
 
             // Delete course ONLY - not instructor
-            Course cor = session.get(Course.class, 11);
+            Course cor = session.get(Course.class, 13);
             session.delete(cor);
 
             session.getTransaction().commit();
@@ -62,7 +63,17 @@ public class OnetToManyDemo {
             System.out.println("Instructor1: " + instructor);
             System.out.println("Courses1: " + instructor.getCourses());
 
+            // FETCH JOIN SQL - example with parameter
+            Query<Instructor> query =
+                    session.createQuery("from Instructor i join fetch i.courses where i.id = :theId",
+                            Instructor.class);
+            query.setParameter("theId", 1);
+            Instructor tempIns = query.getSingleResult();
+            System.out.println("Fetch query: " + tempIns);
+
             session.getTransaction().commit();
+
+            System.out.println("Fetch query courses: " + tempIns.getCourses());
 
          } catch(Exception ex) {
             ex.printStackTrace();
