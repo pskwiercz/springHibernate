@@ -22,14 +22,19 @@ public class OnetToOneBiDirectionDemo {
 
             session.beginTransaction();
 
-            int id = 1;
+            int id = 6;
             InstructorDetail instDetail = session.get(InstructorDetail.class, id);
             System.out.println("Instructor detail: " + instDetail);
             System.out.println("Associated instructor: " + instDetail.getInstructor());
 
+            session.delete(instDetail);
             session.getTransaction().commit();
 
-        } finally {
+        }  catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            session.close();
             factory.close();
         }
     }

@@ -61,7 +61,10 @@ public class OnetToOneDemo {
             }
             session.getTransaction().commit();
 
+        } catch(Exception ex) {
+            ex.printStackTrace();
         } finally {
+            session.close();
             factory.close();
         }
     }

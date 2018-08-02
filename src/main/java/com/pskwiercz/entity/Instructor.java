@@ -1,6 +1,8 @@
 package com.pskwiercz.entity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="instructor")
@@ -23,6 +25,21 @@ public class Instructor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="instructor_detail_id")
     private InstructorDetail instructorDetail;
+
+    @OneToMany(mappedBy = "instructor", cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+                                                    CascadeType.DETACH, CascadeType.REFRESH})
+    private List<Course> courses;
+
+    // This is need for Bi-Directional
+    public void add(Course course) {
+        if (course == null) {
+            this.courses = new ArrayList<>();
+        }
+
+        courses.add(course);
+
+        course.setInstructor(this);
+    }
 
     public Instructor() {}
 
@@ -72,8 +89,21 @@ public class Instructor {
         this.instructorDetail = instructorDetail;
     }
 
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+
     @Override
     public String toString() {
-        return "[" + id + "] Name: " + firstName + " " + lastName + ", email: " + email;
+        return "Instructor{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email +
+                '}';
     }
 }

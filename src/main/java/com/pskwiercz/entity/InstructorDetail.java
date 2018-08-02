@@ -62,6 +62,9 @@ public class InstructorDetail {
 
     @Override
     public String toString() {
-        return "Hobby: " + hobby + ", YT: " + youtubeChannel;
+        return "InstructorDetail{" +
+                "id=" + id +
+                ", youtubeChannel='" + youtubeChannel + '\'' +
+                '}';
     }
 }
